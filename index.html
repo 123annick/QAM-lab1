@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sign up for our monthly product management newsletter." />
+  <title>Newsletter Sign-Up | Stay Updated</title>
+
+  <!-- Roboto font (400 regular, 700 bold) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+  <!-- "defer" runs the script after the HTML has been parsed -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <main class="page">
+
+    <!-- ========== STATE 1: SIGN-UP CARD ========== -->
+    <section class="card" id="signup-card" aria-labelledby="signup-title">
+
+      <!-- Text + form column -->
+      <div class="card__content">
+        <h1 class="card__title" id="signup-title">Stay updated!</h1>
+        <p>Join 60,000+ product managers receiving monthly updates on:</p>
+
+        <ul class="benefits">
+          <li>Product discovery and building what matters</li>
+          <li>Measuring to ensure updates are a success</li>
+          <li>And much more!</li>
+        </ul>
+
+        <!-- novalidate: turn off the browser's default bubbles so our JS messages are used instead -->
+        <form class="form" id="signup-form" novalidate>
+          <div class="form__group">
+            <div class="form__label-row">
+              <label for="email">Email address</label>
+              <!-- aria-live makes screen readers announce the message when it changes -->
+              <span class="form__error" id="email-error" aria-live="polite"></span>
+            </div>
+            <input
+              class="form__input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="email@company.com"
+              autocomplete="email"
+              required
+              aria-describedby="email-error"
+              aria-invalid="false"
+            />
+          </div>
+
+          <button class="btn" type="submit">Subscribe to monthly newsletter</button>
+        </form>
+      </div>
+
+      <!-- Decorative illustration (hidden from screen readers) -->
+      <div class="card__illustration" aria-hidden="true">
+        <svg viewBox="0 0 300 300" class="illustration" focusable="false">
+          <!-- Background circles -->
+          <circle cx="60" cy="70" r="28" fill="#ffffff" opacity="0.15" />
+          <circle cx="250" cy="240" r="40" fill="#ffffff" opacity="0.12" />
+          <circle cx="245" cy="60" r="10" fill="#242742" opacity="0.6" />
+          <!-- Bar chart -->
+          <rect x="40" y="200" width="22" height="50" rx="4" fill="#242742" />
+          <rect x="70" y="175" width="22" height="75" rx="4" fill="#242742" opacity="0.85" />
+          <rect x="100" y="150" width="22" height="100" rx="4" fill="#ffffff" />
+          <!-- Envelope -->
+          <g transform="translate(130 90) rotate(-8)">
+            <rect width="130" height="88" rx="10" fill="#ffffff" />
+            <path d="M6 10 L65 52 L124 10" fill="none" stroke="#ff6155" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+          </g>
+          <!-- Notification badge -->
+          <circle cx="258" cy="95" r="16" fill="#242742" />
+          <text x="258" y="101" text-anchor="middle" font-family="Roboto, sans-serif" font-weight="700" font-size="16" fill="#ffffff">1</text>
+          <!-- Sparkles -->
+          <path d="M200 215 l5 -12 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 z" fill="#ffffff" />
+          <path d="M40 125 l3 -7 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 z" fill="#242742" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ========== STATE 2: SUCCESS MESSAGE (hidden until the form is valid) ========== -->
+    <section class="success" id="success-card" aria-labelledby="success-title" hidden>
+      <div class="success__body">
+        <!-- Success icon -->
+        <svg class="success__icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="successGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ff6a3a" />
+              <stop offset="1" stop-color="#ff527b" />
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="32" r="32" fill="url(#successGradient)" />
+          <path d="M20 33 l8 8 l16 -17" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <!-- tabindex="-1" lets JS move focus here so screen readers read the new message -->
+        <h2 class="success__title" id="success-title" tabindex="-1">Thanks for subscribing!</h2>
+        <p>
+          A confirmation email has been sent to
+          <strong id="success-email">ash@loremcompany.com</strong>.
+          Please open it and click the button inside to confirm your subscription.
+        </p>
+      </div>
+
+      <button class="btn" type="button" id="dismiss-btn">Dismiss message</button>
+    </section>
+
+  </main>
+</body>
+</html>

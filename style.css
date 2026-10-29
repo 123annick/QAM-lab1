@@ -1,0 +1,393 @@
+/* =========================================================
+   1. DESIGN TOKENS (CSS custom properties)
+   Defining colours/fonts once makes the design consistent
+   and easy to change later.
+   ========================================================= */
+:root {
+  --clr-tomato: hsl(4, 100%, 67%);
+  --clr-tomato-light: hsla(4, 100%, 67%, 0.15);
+  --clr-dark-slate: hsl(234, 29%, 20%);
+  --clr-charcoal: hsl(235, 18%, 26%);
+  --clr-grey: hsl(231, 7%, 60%);
+  --clr-white: hsl(0, 0%, 100%);
+  --clr-success: hsl(150, 60%, 38%);
+
+  --gradient-accent: linear-gradient(135deg, hsl(18, 100%, 61%), hsl(345, 100%, 66%));
+
+  --ff-base: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --fs-base: 1rem;      /* 16px */
+  --fs-small: 0.75rem;  /* 12px */
+  --fs-title-mobile: 2.5rem;
+  --fs-title-desktop: 3.5rem;
+
+  --radius-input: 8px;
+  --radius-card: 36px;
+  --transition: 200ms ease;
+}
+
+/* =========================================================
+   2. RESET / BASE
+   Removes browser default differences for cross-browser
+   consistency.
+   ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--ff-base);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  color: var(--clr-charcoal);
+  background-color: var(--clr-white); /* mobile: card fills the screen */
+  -webkit-font-smoothing: antialiased;
+}
+
+input,
+button {
+  font: inherit; /* form controls don't inherit fonts by default */
+}
+
+svg {
+  display: block;
+}
+
+/* The [hidden] attribute must always win over display rules below */
+[hidden] {
+  display: none !important;
+}
+
+/* =========================================================
+   3. LAYOUT — MOBILE FIRST
+   Base styles target small screens; media queries at the
+   bottom enhance the layout for larger screens.
+   ========================================================= */
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* mobile: card sits at the top, sized to its content */
+}
+
+/* ---------- Sign-up card ---------- */
+.card {
+  display: flex;
+  flex-direction: column-reverse; /* illustration on top on mobile */
+  width: 100%;
+  background-color: var(--clr-white);
+}
+
+.card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2.5rem 1.5rem;
+}
+
+.card__title {
+  font-size: var(--fs-title-mobile);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--clr-dark-slate);
+}
+
+/* Decorative illustration panel */
+.card__illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 284px;
+  background: var(--gradient-accent);
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+}
+
+.illustration {
+  width: auto;
+  height: 90%;
+  max-width: 100%;
+}
+
+/* ---------- Benefits list with custom check icons ---------- */
+.benefits {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.benefits li {
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+/* Tomato circle with a white tick, drawn with an inline SVG data URI */
+.benefits li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 21px;
+  height: 21px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 21'%3E%3Ccircle cx='10.5' cy='10.5' r='10.5' fill='%23FF6155'/%3E%3Cpath d='M6 11l3 3 6-6' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* =========================================================
+   4. FORM
+   ========================================================= */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form__label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: var(--clr-dark-slate);
+}
+
+.form__error {
+  color: var(--clr-tomato);
+  text-align: right;
+}
+
+.form__input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--clr-grey);
+  border-radius: var(--radius-input);
+  background-color: var(--clr-white);
+  color: var(--clr-dark-slate);
+  transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
+  -webkit-appearance: none; /* removes iOS inner shadow */
+  appearance: none;
+}
+
+.form__input::placeholder {
+  color: var(--clr-grey);
+  opacity: 1; /* Firefox lowers placeholder opacity by default */
+}
+
+/* Hover + focus states */
+.form__input:hover {
+  border-color: var(--clr-dark-slate);
+}
+
+.form__input:focus {
+  outline: none;
+  border-color: var(--clr-dark-slate);
+  box-shadow: 0 0 0 3px hsla(234, 29%, 20%, 0.15);
+}
+
+/* Error state (class added by JavaScript) */
+.form__input.is-invalid {
+  border-color: var(--clr-tomato);
+  background-color: var(--clr-tomato-light);
+  color: var(--clr-tomato);
+}
+
+.form__input.is-invalid:focus {
+  box-shadow: 0 0 0 3px hsla(4, 100%, 67%, 0.25);
+}
+
+/* Valid state (class added by JavaScript) */
+.form__input.is-valid {
+  border-color: var(--clr-success);
+}
+
+.form__input.is-valid:focus {
+  box-shadow: 0 0 0 3px hsla(150, 60%, 38%, 0.2);
+}
+
+/* =========================================================
+   5. BUTTON
+   ========================================================= */
+.btn {
+  position: relative;
+  width: 100%;
+  padding: 1.125rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-input);
+  background-color: var(--clr-dark-slate);
+  color: var(--clr-white);
+  font-weight: 700;
+  cursor: pointer;
+  isolation: isolate;
+  overflow: hidden;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+/* Gradient layer that fades in on hover/focus (gradients can't be transitioned directly) */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--gradient-accent);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.btn:hover::before,
+.btn:focus-visible::before {
+  opacity: 1;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  box-shadow: 0 16px 32px hsla(4, 100%, 67%, 0.5);
+}
+
+/* Keyboard focus ring — only shown for keyboard users */
+.btn:focus-visible {
+  outline: 3px solid var(--clr-dark-slate);
+  outline-offset: 3px;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* =========================================================
+   6. SUCCESS MESSAGE
+   ========================================================= */
+.success {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2.5rem;
+  width: 100%;
+  min-height: 100vh;
+  padding: 9rem 1.5rem 2.5rem;
+  background-color: var(--clr-white);
+}
+
+.success__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.success__icon {
+  width: 64px;
+  height: 64px;
+}
+
+.success__title {
+  font-size: var(--fs-title-mobile);
+  line-height: 1;
+  color: var(--clr-dark-slate);
+}
+
+.success__title:focus {
+  outline: none; /* focus is moved here by JS for screen readers only */
+}
+
+.success strong {
+  color: var(--clr-dark-slate);
+  word-break: break-word; /* long emails won't overflow */
+}
+
+/* =========================================================
+   7. RESPONSIVE BREAKPOINTS
+   ========================================================= */
+
+/* Tablet: keep the stacked layout but present it as a centred card */
+@media (min-width: 37.5em) { /* 600px */
+  body {
+    background-color: var(--clr-charcoal);
+  }
+
+  .page {
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .card {
+    max-width: 36rem;
+    padding: 1.5rem;
+    border-radius: var(--radius-card);
+    box-shadow: 0 15px 60px hsla(0, 0%, 0%, 0.25);
+  }
+
+  .card__illustration {
+    border-radius: 16px;
+  }
+
+  .card__content {
+    padding: 2rem 1rem 1rem;
+  }
+
+  .success {
+    min-height: auto;
+    max-width: 31.5rem;
+    padding: 3rem 4rem 4rem;
+    border-radius: var(--radius-card);
+    box-shadow: 0 15px 60px hsla(0, 0%, 0%, 0.25);
+  }
+
+  .success__title {
+    font-size: var(--fs-title-desktop);
+  }
+}
+
+/* Desktop: side-by-side layout, illustration on the right */
+@media (min-width: 56.25em) { /* 900px */
+  .card {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 2.5rem;
+    max-width: 58rem;
+  }
+
+  .card__content {
+    flex: 1;
+    justify-content: center;
+    padding: 2rem 0 2rem 2rem;
+  }
+
+  .card__title {
+    font-size: var(--fs-title-desktop);
+  }
+
+  .card__illustration {
+    flex: 0 0 25rem;
+    height: auto;
+    min-height: 37rem;
+  }
+
+  .illustration {
+    width: 90%;
+    height: auto;
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
